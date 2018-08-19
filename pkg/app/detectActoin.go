@@ -48,6 +48,8 @@ func actionToRun() types.Obj {
 			out["command"] = "remove"
 		} else if match("update|up|u", arg) && runCommand {
 			out["command"] = "remove"
+		} else if match("search|se|s", arg) && runCommand {
+			out["command"] = "search"
 		} else if match("[^-].+", arg) && !runCommand {
 			out["commandArg"] = out["commandArg"] + " " + arg
 		} else if matchFullFlag("force", "f", arg) {
