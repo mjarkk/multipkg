@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"os"
 	"regexp"
 
@@ -12,7 +11,24 @@ import (
 // DetectRunAction from command line aruments what to do next and do that
 func DetectRunAction(handeler *types.Handeler) {
 	cliActions := actionToRun()
-	fmt.Println(cliActions)
+	firstArg := cliActions["commandArg"]
+	flags := &types.Flags{
+		"force": len(cliActions["force"]) > 0,
+	}
+	switch cliActions["command"] {
+	case "Install":
+		handeler.Install(firstArg, flags)
+	case "Reinstall":
+		handeler.Reinstall(firstArg, flags)
+	case "Remove":
+		handeler.Remove(firstArg, flags)
+	case "Update":
+		handeler.Update(firstArg, flags)
+	case "Search":
+		handeler.Search(firstArg, flags)
+	case "Info":
+		handeler.Info(firstArg, flags)
+	}
 }
 
 func match(regx string, arg string) bool {
@@ -41,15 +57,17 @@ func actionToRun() types.Obj {
 		runCommand := out["command"] == ""
 
 		if match("install|in|i", arg) && runCommand {
-			out["command"] = "install"
+			out["command"] = "Install"
 		} else if match("reinstall|rein|ri", arg) && runCommand {
-			out["command"] = "reinstall"
+			out["command"] = "Reinstall"
 		} else if match("remove|re|r", arg) && runCommand {
-			out["command"] = "remove"
+			out["command"] = "Remove"
 		} else if match("update|up|u", arg) && runCommand {
-			out["command"] = "remove"
+			out["command"] = "Update"
 		} else if match("search|se|s", arg) && runCommand {
-			out["command"] = "search"
+			out["command"] = "Search"
+		} else if match("info|inf", arg) && runCommand {
+			out["command"] = "Info"
 		} else if match("[^-].+", arg) && !runCommand {
 			out["commandArg"] = out["commandArg"] + " " + arg
 		} else if matchFullFlag("force", "f", arg) {

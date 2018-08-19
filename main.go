@@ -14,7 +14,8 @@ func printHelp() {
 
   Options:
 
-    -f, --force        Force install/remove/re-install a program
+    -f, --force        Force command
+    -y, --yes          Automaticly input yes for next
     --help             Help menu
     --version          App info
 
@@ -24,8 +25,8 @@ func printHelp() {
     reinstall|rein|ri  <program>  Re-install a program
     remove|re|r        <program>  Remove a program from the system
     update|up|u        *<program> Update a program or the complete system
-    search|se|s        <program>  Search for packages
-    info|inf           <program>  Get info about a specific package
+    search|se|s        <program>  Search for programs
+    info|inf           <program>  Get info about a specific programs
 `)
 }
 

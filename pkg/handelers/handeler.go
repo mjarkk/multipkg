@@ -7,7 +7,7 @@ import (
 	"github.com/mjarkk/multipkg/pkg/types"
 )
 
-// Setup sets up this package with the right functions
+// Setup is started as first function of this program
 func Setup(osName string) (*types.Handeler, error) {
 	if osName == "Solus" {
 		return solus.Setup(), nil
