@@ -5,3 +5,5 @@ type Handeler struct {
 	Update  func()
 	Remove  func()
 }
+
+type Obj = map[string]string

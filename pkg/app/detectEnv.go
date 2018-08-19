@@ -1,18 +1,23 @@
 package app
 
 import (
-	"fmt"
-	"log"
+	"errors"
+	"regexp"
 
 	"github.com/mjarkk/multipkg/pkg/run"
 )
 
 // this package detects the current OS
-func detectOs() string {
+func detectOs() (string, error) {
+	defaultErr := "can't detect OS.."
 	out, err := run.Run("cat /etc/lsb-release")
 	if err != nil {
-		log.Fatal("can't detect OS..")
+		return "", errors.New(defaultErr)
 	}
-	fmt.Println("detect OS out:", out)
-	return "Solus"
+	re := regexp.MustCompile("(DISTRIB_ID=)([a-zA-Z]+)")
+	match := re.FindStringSubmatch(out)[2]
+	if len(match) == 0 {
+		return "", errors.New(defaultErr)
+	}
+	return match, nil
 }
