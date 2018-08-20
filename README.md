@@ -1,5 +1,5 @@
 # multipkg
-A wrapper around OS package installers with everyware the same commands  
+A tool that removes the differences between package installers from linux distro's
 
 ## Status
 I just started working on this app and it's a quite big idea so it might take some time before it suports the major linux distrobutions and maybe windows some day
