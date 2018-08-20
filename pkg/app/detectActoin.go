@@ -2,7 +2,6 @@ package app
 
 import (
 	"os"
-	"regexp"
 
 	"github.com/mjarkk/multipkg/pkg/gui"
 	"github.com/mjarkk/multipkg/pkg/types"
@@ -31,22 +30,6 @@ func DetectRunAction(handeler *types.Handeler) {
 	}
 }
 
-func match(regx string, arg string) bool {
-	matched, err := regexp.MatchString("^("+regx+")$", arg)
-	if err != nil {
-		return false
-	}
-	return matched
-}
-
-func matchFullFlag(full string, letter string, arg string) bool {
-	return match("--"+full+"|-\\w{0,}"+letter+"\\w{0,}", arg)
-}
-
-func matchFlag(full string, arg string) bool {
-	return match("--"+full, arg)
-}
-
 func actionToRun() types.Obj {
 	out := make(types.Obj)
 	out["command"] = ""
@@ -56,21 +39,21 @@ func actionToRun() types.Obj {
 	for _, arg := range os.Args[1:] {
 		runCommand := out["command"] == ""
 
-		if match("install|in|i", arg) && runCommand {
+		if Match("install|in|i", arg) && runCommand {
 			out["command"] = "Install"
-		} else if match("reinstall|rein|ri", arg) && runCommand {
+		} else if Match("reinstall|rein|ri", arg) && runCommand {
 			out["command"] = "Reinstall"
-		} else if match("remove|re|r", arg) && runCommand {
+		} else if Match("remove|re|r", arg) && runCommand {
 			out["command"] = "Remove"
-		} else if match("update|up|u", arg) && runCommand {
+		} else if Match("update|up|u", arg) && runCommand {
 			out["command"] = "Update"
-		} else if match("search|se|s", arg) && runCommand {
+		} else if Match("search|se|s", arg) && runCommand {
 			out["command"] = "Search"
-		} else if match("info|inf", arg) && runCommand {
+		} else if Match("info|inf", arg) && runCommand {
 			out["command"] = "Info"
-		} else if match("[^-].+", arg) && !runCommand {
+		} else if Match("[^-].+", arg) && !runCommand {
 			out["commandArg"] = out["commandArg"] + " " + arg
-		} else if matchFullFlag("force", "f", arg) {
+		} else if MatchFullFlag("force", "f", arg) {
 			out["force"] = "true"
 		} else if runCommand {
 			gui.FriendlyErr("multipkg: command " + arg + " not found")

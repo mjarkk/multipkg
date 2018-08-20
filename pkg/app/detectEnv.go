@@ -3,7 +3,6 @@ package app
 import (
 	"errors"
 	"io/ioutil"
-	"regexp"
 )
 
 // this package detects the current OS
@@ -13,8 +12,7 @@ func detectOs() (string, error) {
 	if err != nil {
 		return "", errors.New(defaultErr)
 	}
-	re := regexp.MustCompile("(DISTRIB_ID=)([a-zA-Z]+)")
-	match := re.FindStringSubmatch(string(out))[2]
+	match := FindMatch(string(out), "(DISTRIB_ID=)([a-zA-Z]+)", 2)
 	if len(match) == 0 {
 		return "", errors.New(defaultErr)
 	}

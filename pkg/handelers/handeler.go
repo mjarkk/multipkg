@@ -8,9 +8,9 @@ import (
 )
 
 // Setup is started as first function of this program
-func Setup(osName string) (*types.Handeler, error) {
+func Setup(App *types.App, osName string) (*types.Handeler, error) {
 	if osName == "Solus" {
-		return solus.Setup(), nil
+		return solus.Setup(App), nil
 	}
 	return &types.Handeler{}, errors.New("No handeler found for this OS")
 }
