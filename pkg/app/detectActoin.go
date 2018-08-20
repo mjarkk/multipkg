@@ -32,7 +32,7 @@ func DetectRunAction(handeler *types.Handeler) {
 }
 
 func match(regx string, arg string) bool {
-	matched, err := regexp.MatchString("^"+regx+"$", arg)
+	matched, err := regexp.MatchString("^("+regx+")$", arg)
 	if err != nil {
 		return false
 	}
