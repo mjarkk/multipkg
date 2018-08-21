@@ -9,11 +9,13 @@ import (
 // Run will setup the app
 func Run() {
 	app := &types.App{
-		NormalMatch: NormalMatch,
-		Match:       Match,
-		FindMatch:   FindMatch,
-		Replace:     Replace,
-		CleanupCli:  CleanupCli,
+		NormalMatch:    NormalMatch,
+		Match:          Match,
+		FindMatch:      FindMatch,
+		Replace:        Replace,
+		CleanupCli:     CleanupCli,
+		CleanFindMatch: CleanFindMatch,
+		FindAllMatch:   FindAllMatch,
 	}
 	oss, err := detectOs()
 	gui.CheckErr(err)

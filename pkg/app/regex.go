@@ -37,6 +37,17 @@ func FindMatch(toMatch string, regx string, selecter int) string {
 	return ""
 }
 
+// FindAllMatch find all matches
+func FindAllMatch(toMatch string, regx string, selecter int) []string {
+	re := regexp.MustCompile(regx)
+	out := re.FindAllStringSubmatch(string(toMatch), -1)
+	toReturn := []string{}
+	for _, value := range out {
+		toReturn = append(toReturn, value[selecter])
+	}
+	return toReturn
+}
+
 // MatchFlag just matches a flag like --yes
 func MatchFlag(full string, arg string) bool {
 	return Match("--"+full, arg)
@@ -52,4 +63,9 @@ func CleanupCli(input string) string {
 func Replace(toReplace string, Replaceval string, regx string) string {
 	re := regexp.MustCompile(regx)
 	return re.ReplaceAllString(toReplace, Replaceval)
+}
+
+// CleanFindMatch cleans directly the output of FindMatch
+func CleanFindMatch(toMatch string, regx string, selecter int) string {
+	return CleanupCli(FindMatch(toMatch, regx, selecter))
 }

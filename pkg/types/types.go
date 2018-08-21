@@ -33,11 +33,24 @@ type PkgInfo struct {
 	Component         string   // programming.tools
 }
 
+// PkgSearchOut is every array item in PkgSearchList
+type PkgSearchOut struct {
+	Name        string // git
+	Description string // Git is a fast, scalable, distributed revision control system with an...
+}
+
+// PkgSearchList is what will be send to the print output off package search output
+type PkgSearchList struct {
+	List []PkgSearchOut
+}
+
 // App can be used in other packages to execute functions from package app
 type App struct {
-	NormalMatch func(regx string, arg string) bool
-	Match       func(regx string, arg string) bool
-	FindMatch   func(input string, regx string, selector int) string
-	Replace     func(toReplace string, Replaceval string, regx string) string
-	CleanupCli  func(input string) string
+	NormalMatch    func(regx string, arg string) bool
+	Match          func(regx string, arg string) bool
+	FindMatch      func(input string, regx string, selector int) string
+	Replace        func(toReplace string, Replaceval string, regx string) string
+	CleanupCli     func(input string) string
+	CleanFindMatch func(input string, regx string, selector int) string
+	FindAllMatch   func(input string, regx string, selector int) []string
 }

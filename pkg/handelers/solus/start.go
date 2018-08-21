@@ -51,7 +51,21 @@ func Update(pkg string, flags *types.Flags) error {
 
 // Search for a program
 func Search(pkg string, flags *types.Flags) error {
-	fmt.Println("called: Search")
+	out, err := run.Run("eopkg search --no-color --name" + pkg)
+	needRootErr(out, err)
+	regx := `((\w|-)+)(\t|\s)+-\s{0,1}((\(|\)|\w|\.|\s|,|\w-\w)+)(\n((\s|\t)$|)|$)`
+	titles := app.FindAllMatch(out, regx, 1)
+	Descriptions := app.FindAllMatch(out, regx, 4)
+	returnVal := []types.PkgSearchOut{}
+	for i, title := range titles {
+		returnVal = append(returnVal, types.PkgSearchOut{
+			Name:        title,
+			Description: app.CleanupCli(Descriptions[i]),
+		})
+	}
+	gui.PrintPkgSearch(&types.PkgSearchList{
+		List: returnVal,
+	})
 	return nil
 }
 
@@ -60,16 +74,16 @@ func Info(pkg string, flags *types.Flags) error {
 	out, err := run.Run("eopkg info " + pkg)
 	needRootErr(out, err)
 	returnVal := &types.PkgInfo{
-		Name:              app.CleanupCli(app.FindMatch(out, `(Name(\s|\t)+:\s{0,})((\w|\s|\d|\.)+)`, 3)),
+		Name:              app.CleanFindMatch(out, `(Name(\s|\t)+:\s{0,})((\w|\s|\d|\.)+)`, 3),
 		Installed:         app.NormalMatch("Installed package:", out),
-		InstallledVersion: app.CleanupCli(app.FindMatch(out, `Installed package:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,})((\w|\s|\d|\.)+)`, 5)),
-		InstallledRelease: app.CleanupCli(app.FindMatch(out, `Installed package:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,}).+(release:\s{0,})((\s|\d|\.)+)`, 6)),
-		Version:           app.CleanupCli(app.FindMatch(out, `Package found in.{0,}:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,})((\w|\s|\d|\.)+)`, 5)),
-		Release:           app.CleanupCli(app.FindMatch(out, `Package found in.{0,}:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,}).+(release:\s{0,})((\s|\d|\.)+)`, 6)),
-		Dependencies:      strings.Split(app.CleanupCli(app.FindMatch(out, `(Dependencies(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-)+)\n`, 4)), " "),
-		Description:       app.CleanupCli(app.FindMatch(out, `(Description(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4)),
-		Licenses:          strings.Split(app.CleanupCli(app.FindMatch(out, `(Licenses(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4)), " "),
-		Component:         app.CleanupCli(app.FindMatch(out, `(Component(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4)),
+		InstallledVersion: app.CleanFindMatch(out, `Installed package:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,})((\w|\s|\d|\.)+)`, 5),
+		InstallledRelease: app.CleanFindMatch(out, `Installed package:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,}).+(release:\s{0,})((\s|\d|\.)+)`, 6),
+		Version:           app.CleanFindMatch(out, `Package found in.{0,}:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,})((\w|\s|\d|\.)+)`, 5),
+		Release:           app.CleanFindMatch(out, `Package found in.{0,}:(\n|\s){0,20}(Name(\s|\t){0,}:\s{0,}).+(version:\s{0,}).+(release:\s{0,})((\s|\d|\.)+)`, 6),
+		Dependencies:      strings.Split(app.CleanFindMatch(out, `(Dependencies(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-)+)\n`, 4), " "),
+		Description:       app.CleanFindMatch(out, `(Description(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4),
+		Licenses:          strings.Split(app.CleanFindMatch(out, `(Licenses(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4), " "),
+		Component:         app.CleanFindMatch(out, `(Component(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4),
 	}
 	gui.PrintPkgInfo(returnVal)
 	return nil
