@@ -9,17 +9,17 @@ import (
 
 // Update a program
 func Update(pkg string, flags *types.Flags) error {
-	err := run.Interactive("eopkg --no-color upgrade", updateOutputHandeler, updateErrHandeler)
+	err := run.Interactive(App, "eopkg --no-color upgrade", updateOutputHandeler)
 	fmt.Println(err)
 	return nil
 }
 
-func updateOutputHandeler(line string) string {
-	fmt.Println("out:", line)
-	return line
-}
+var updateCommandOutput = []string{}
 
-func updateErrHandeler(line string) string {
-	fmt.Println("err:", line)
+// updateOutputHandeler handels the default line output of run.Interactive
+func updateOutputHandeler(line string) string {
+	updateCommandOutput = append(updateCommandOutput, line)
+	needRootErr(line, nil)
+	fmt.Println(line)
 	return line
 }

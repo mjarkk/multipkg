@@ -7,12 +7,12 @@ import (
 	"github.com/mjarkk/multipkg/pkg/types"
 )
 
-// app variable contains functions from other packages
-var app *types.App
+// App variable contains functions from other packages
+var App *types.App
 
 // Setup will be called to setup this pacakge
-func Setup(App *types.App) *types.Handeler {
-	app = App
+func Setup(app *types.App) *types.Handeler {
+	App = app
 	return &types.Handeler{
 		Install:   Install,
 		Reinstall: Reinstall,
@@ -21,12 +21,6 @@ func Setup(App *types.App) *types.Handeler {
 		Search:    Search,
 		Info:      Info,
 	}
-}
-
-// Install installes a program
-func Install(pkg string, flags *types.Flags) error {
-	fmt.Println("called: Install")
-	return nil
 }
 
 // Reinstall reinstalles a program
@@ -42,7 +36,7 @@ func Remove(pkg string, flags *types.Flags) error {
 }
 
 func needRoot(checkstring string) bool {
-	return app.NormalMatch("You have to be root for this operation", checkstring)
+	return App.NormalMatch("You have to be root for this operation", checkstring)
 }
 
 func needRootErr(input string, err error) {
