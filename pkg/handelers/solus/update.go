@@ -20,6 +20,6 @@ var updateCommandOutput = []string{}
 func updateOutputHandeler(line string) string {
 	updateCommandOutput = append(updateCommandOutput, line)
 	needRootErr(line, nil)
-	fmt.Println(line)
-	return line
+	fmt.Println("cmdOut:", line)
+	return ""
 }

@@ -3,10 +3,12 @@ package run
 import (
 	"bufio"
 	"errors"
-	"io"
+	"log"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"github.com/ionrock/procs"
 	"github.com/kr/pty"
@@ -35,14 +37,14 @@ func Run(command string) (output string, err error) {
 	return string(bytes), err
 }
 
+func write(term *os.File, toType string) {
+	term.Write([]byte(toType + "\n"))
+}
+
 // Interactive runs a command with a function bind input and output
 func Interactive(App *types.App, command string, OutputHandler func(line string) string) (err error) {
-	commands := strings.Split(command, " ")
-	if len(commands) < 2 {
-		return errors.New("command to short")
-	}
 
-	cmd := exec.Command(commands[0], commands[1:]...)
+	cmd := exec.Command("bash")
 	cmd.Env = procs.Env(map[string]string{"LANG": "en_US.utf8"}, true)
 
 	tty, err := pty.Start(cmd)
@@ -55,15 +57,31 @@ func Interactive(App *types.App, command string, OutputHandler func(line string)
 		return err
 	}
 
-	defer tty.Close()
+	defer func() { _ = tty.Close() }()
+
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGWINCH)
+	go func() {
+		for range ch {
+			if err := pty.InheritSize(os.Stdin, tty); err != nil {
+				log.Printf("error resizing pty: %s", err)
+			}
+		}
+	}()
+	ch <- syscall.SIGWINCH
+
 	go func() {
 		scanner := bufio.NewScanner(tty)
 		for scanner.Scan() {
-			OutputHandler(Cleanup(App, scanner.Text()))
+			toTypeNext := OutputHandler(Cleanup(App, scanner.Text()))
+			if len(toTypeNext) > 0 {
+				write(tty, toTypeNext)
+			}
 		}
 	}()
+
 	go func() {
-		io.Copy(tty, os.Stdin)
+		write(tty, command+" && exit")
 	}()
 
 	if err := cmd.Wait(); err != nil {

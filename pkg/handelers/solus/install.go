@@ -9,7 +9,7 @@ import (
 
 // Install installes a program
 func Install(pkg string, flags *types.Flags) error {
-	err := run.Interactive(App, "eopkg --no-color install "+pkg, updateOutputHandeler)
+	err := run.Interactive(App, "eopkg --no-color install "+pkg, installOutputHandeler)
 	fmt.Println(err)
 	return nil
 }
@@ -20,6 +20,6 @@ var installCommandOutput = []string{}
 func installOutputHandeler(line string) string {
 	installCommandOutput = append(installCommandOutput, line)
 	needRootErr(line, nil)
-	fmt.Println(line)
-	return line
+	fmt.Println("\ncmdOut:", line)
+	return ""
 }
