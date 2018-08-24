@@ -42,7 +42,7 @@ func write(term *os.File, toType string) {
 }
 
 // Interactive runs a command with a function bind input and output
-func Interactive(App *types.App, command string, OutputHandler func(line string) string) (err error) {
+func Interactive(App *types.App, command string, OutputHandler func(line string, tty *os.File) string) (err error) {
 
 	cmd := exec.Command("bash")
 	cmd.Env = procs.Env(map[string]string{"LANG": "en_US.utf8"}, true)
@@ -73,9 +73,9 @@ func Interactive(App *types.App, command string, OutputHandler func(line string)
 	go func() {
 		scanner := bufio.NewScanner(tty)
 		for scanner.Scan() {
-			toTypeNext := OutputHandler(Cleanup(App, scanner.Text()))
+			toTypeNext := OutputHandler(Cleanup(App, scanner.Text()), tty)
 			if len(toTypeNext) > 0 {
-				write(tty, toTypeNext)
+				go write(tty, toTypeNext)
 			}
 		}
 	}()

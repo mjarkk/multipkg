@@ -18,6 +18,7 @@ func printHelp() {
     -y, --yes          Automaticly input yes for next
     --help             Help menu
     --version          App info
+    --debug            Log get debug data 
 
   Commands:
 

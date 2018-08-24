@@ -17,6 +17,7 @@ func Run() {
 		CleanFindMatch: CleanFindMatch,
 		FindAllMatch:   FindAllMatch,
 	}
+	gui.Setup()
 	oss, err := detectOs()
 	gui.CheckErr(err)
 	handeler, err := handelers.Setup(app, oss)
