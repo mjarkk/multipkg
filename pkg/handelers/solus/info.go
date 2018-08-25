@@ -1,6 +1,7 @@
 package solus
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/mjarkk/multipkg/pkg/gui"
@@ -10,7 +11,17 @@ import (
 
 // Info about a program
 func Info(pkg string, flags *types.Flags) error {
-	out, err := run.Run("eopkg info " + pkg)
+	data, err := GetInfo(pkg, flags)
+	if err != nil {
+		gui.FriendlyErr()
+	}
+	gui.PrintPkgInfo(data)
+	return nil
+}
+
+// GetInfo gets info about the package and wraps it inside a object
+func GetInfo(pkg string, flags *types.Flags) (*types.PkgInfo, error) {
+	out, err := run.Run("eopkg info --no-color " + pkg)
 	needRootErr(out, err)
 	returnVal := &types.PkgInfo{
 		Name:              App.CleanFindMatch(out, `(Name(\s|\t)+:\s{0,})((\w|\s|\d|\.)+)`, 3),
@@ -24,6 +35,8 @@ func Info(pkg string, flags *types.Flags) error {
 		Licenses:          strings.Split(App.CleanFindMatch(out, `(Licenses(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4), " "),
 		Component:         App.CleanFindMatch(out, `(Component(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4),
 	}
-	gui.PrintPkgInfo(returnVal)
-	return nil
+	if returnVal.Name == "" {
+		return &types.PkgInfo{}, errors.New("package not found")
+	}
+	return returnVal, nil
 }
