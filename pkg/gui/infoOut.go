@@ -53,3 +53,9 @@ func RightPad(s string, padStr string, overallLen int) string {
 	var retStr = s + strings.Repeat(padStr, padCountInt)
 	return retStr[:overallLen]
 }
+
+// ProgressIn shows the progress in the downloads, installes and so on
+func ProgressIn(item string, from string, action string, pkg string) {
+	progress := "[" + RightPad(item, " ", len(from)) + "/" + from + "]"
+	fmt.Println(progress, action, ":", pkg)
+}

@@ -41,10 +41,7 @@ func needToMatchRegex(app *types.App, question string, regex string) (string, er
 		}
 		answer = app.Replace(answer, "", `^(\s|\t|\n)+|(\s|\t|\n)+$`)
 		if app.NormalMatch(regex, answer) {
-			fmt.Println("yays i guess")
 			return answer, nil
-		} else {
-			fmt.Println("not so yays i guess")
 		}
 		Echo(false, "Answer issn't valid")
 	}
