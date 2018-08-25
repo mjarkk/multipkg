@@ -1,6 +1,7 @@
 package solus
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 
@@ -19,7 +20,7 @@ func Update(pkg string, flags *types.Flags) error {
 var updateCommandOutput = []string{}
 
 // updateOutputHandeler handels the default line output of run.Interactive
-func updateOutputHandeler(line string, tty *os.File) string {
+func updateOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) string {
 	updateCommandOutput = append(updateCommandOutput, line)
 	needRootErr(line, nil)
 	gui.Echo(true, "cmdOut:", line)
