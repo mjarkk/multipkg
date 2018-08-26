@@ -33,6 +33,8 @@ func PrintPkgInfo(packageInf *types.PkgInfo) {
 	fmt.Println(RightPad("Description", " ", leng), "-", packageInf.Description)
 	fmt.Println(RightPad("Licenses", " ", leng), "-", packageInf.Licenses)
 	fmt.Println(RightPad("Component", " ", leng), "-", packageInf.Component)
+	fmt.Println(RightPad("Architecture", " ", leng), "-", packageInf.Architecture)
+	fmt.Println(RightPad("Size", " ", leng), "-", packageInf.InstallSize)
 }
 
 // PrintPkgSearch prints out a list of found packages from a repo
@@ -57,5 +59,10 @@ func RightPad(s string, padStr string, overallLen int) string {
 // ProgressIn shows the progress in the downloads, installes and so on
 func ProgressIn(item string, from string, action string, pkg string) {
 	progress := "[" + RightPad(item, " ", len(from)) + "/" + from + "]"
-	fmt.Println(progress, action, ":", pkg)
+	fmt.Println(progress, action+":", pkg)
+}
+
+// Installed shows that a package is installed
+func Installed(pkg string) {
+	Echo(false, "Installed:", pkg)
 }

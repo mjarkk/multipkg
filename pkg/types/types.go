@@ -31,6 +31,8 @@ type PkgInfo struct {
 	Description       string   // Git is a fast, scalable, distributed revision control system with an...
 	Licenses          []string // GPL-2.0
 	Component         string   // programming.tools
+	Architecture      string   // x86_64
+	InstallSize       string   // 3.04 MB
 }
 
 // PkgSearchOut is every array item in PkgSearchList

@@ -8,12 +8,16 @@ var commandOutput = []string{}
 var toExecuteAtEndOfNextLine = func(line string, extraData types.Flags) {}
 
 var lastExecLineData = types.Flags{}
+var nextExecFuncMatchRegx = ``
 
 // this function will be executed after every
 func toExecuteAtEndOfNextLineWrapper(line string) {
-	toExecuteAtEndOfNextLine(line, lastExecLineData)
-	// reset the toExecuteAtEndOfNextLine to the default value
-	toExecuteAtEndOfNextLine = func(line string, extraData types.Flags) {}
+	if App.NormalMatch(nextExecFuncMatchRegx, line) {
+		toExecuteAtEndOfNextLine(line, lastExecLineData)
+		// reset the toExecuteAtEndOfNextLine to the default value
+		toExecuteAtEndOfNextLine = func(line string, extraData types.Flags) {}
+		nextExecFuncMatchRegx = ``
+	}
 }
 
 // PKG is the package(s) that will be insatlled

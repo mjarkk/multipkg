@@ -34,6 +34,8 @@ func GetInfo(pkg string, flags *types.Flags) (*types.PkgInfo, error) {
 		Description:       App.CleanFindMatch(out, `(Description(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4),
 		Licenses:          strings.Split(App.CleanFindMatch(out, `(Licenses(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4), " "),
 		Component:         App.CleanFindMatch(out, `(Component(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+)(\n\w+)(\s|\t)+:`, 4),
+		Architecture:      App.CleanFindMatch(out, `Package found in(.|\n)*(Architecture(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+),`, 5),
+		InstallSize:       App.CleanFindMatch(out, `Package found in(.|\n)*(Architecture(\s|\t)+:(\s|\t)+)((\w|\s|\d|\.|-|,)+),\s*Installed\s*Size:(\s|\t)*((\d|\.)*(\s\w*)?)`, 8),
 	}
 	if returnVal.Name == "" {
 		return &types.PkgInfo{}, errors.New("package not found")
