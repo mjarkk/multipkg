@@ -27,7 +27,11 @@ func DetectRunAction(handeler *types.Handeler) {
 		handeler.Search(firstArg, flags)
 	case "Info":
 		handeler.Info(firstArg, flags)
+	default:
+		gui.Echo(false, "Action not found")
+		gui.Echo(true, "action:", cliActions["command"], "arguments:", firstArg)
 	}
+	gui.Echo(false, "exiting..")
 }
 
 func actionToRun() types.Obj {

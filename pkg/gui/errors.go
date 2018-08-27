@@ -16,5 +16,6 @@ func CheckErr(err error) {
 // FriendlyErr returns a error message without making a user super scared
 func FriendlyErr(errors ...interface{}) {
 	fmt.Println(errors...)
+	Echo(false, "exiting..")
 	os.Exit(0)
 }

@@ -31,9 +31,6 @@ func Run(command string) (output string, err error) {
 	cmd.Env = procs.Env(map[string]string{"LANG": "en_US.utf8"}, true)
 
 	bytes, err := cmd.CombinedOutput()
-	if err != nil {
-		return "", err
-	}
 	return string(bytes), err
 }
 

@@ -39,16 +39,16 @@ func needRoot(checkstring string) bool {
 	return App.NormalMatch("You have to be root for this operation", checkstring)
 }
 
+var needRootMsg = "You need root permissions execute this command"
+
 func needRootErr(input string, err error) {
-	needRootErr := "You need root permissions execute this command"
-	if err != nil {
+	if needRoot(input) {
+		gui.FriendlyErr(needRootMsg)
+	} else if err != nil {
 		if needRoot(err.Error()) {
-			gui.FriendlyErr(needRootErr)
+			gui.FriendlyErr(needRootMsg)
 		} else {
 			gui.FriendlyErr("error:", err.Error())
 		}
-	}
-	if needRoot(input) {
-		gui.FriendlyErr(needRootErr)
 	}
 }

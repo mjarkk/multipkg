@@ -70,3 +70,11 @@ func InstallQuestion(Name string, Size string, ifAutoYes bool) bool {
 	}
 	return YesNo("Do you want to continue installing: "+Name+", size: "+Size, ifAutoYes)
 }
+
+// UpdateQuestion asks if the package manager can update ... packages
+func UpdateQuestion(Size string, ifAutoYes bool) bool {
+	if autoYes {
+		return ifAutoYes
+	}
+	return YesNo("Do you want to update these pacakges size: "+Size, ifAutoYes)
+}

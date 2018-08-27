@@ -25,7 +25,6 @@ func Install(pkg string, flags *types.Flags) error {
 	if gui.InstallQuestion(PKG, pkgInfo.InstallSize, true) {
 		run.Interactive(App, "eopkg --no-color --yes-all install "+pkg, installOutputHandeler)
 	}
-	gui.Echo(false, "exiting..")
 	return nil
 }
 
