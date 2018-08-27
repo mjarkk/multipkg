@@ -13,21 +13,40 @@ import (
 func Install(pkg string, flags *types.Flags) error {
 	PKG = App.Replace(pkg, "", `^\s+|\s+$`)
 	if len(PKG) == 0 {
-		gui.FriendlyErr("No package(s) specified to remove")
+		gui.FriendlyErr("No package(s) specified to install")
 	}
-	pkgInfo, err := GetInfo(pkg, flags)
-	if err != nil {
-		gui.FriendlyErr(err)
+
+	PKGs := App.FindAllMatch(PKG, `((\w|\d|\-|\_|\+)+)`, 1)
+	Installed := ""
+	for _, PKGsItem := range PKGs {
+		toAdd, err := GetInfo(PKGsItem, flags)
+		if err != nil {
+			gui.FriendlyErr(err)
+		}
+		if toAdd.Installed {
+			if len(Installed) > 0 {
+				Installed = Installed + " " + PKGsItem
+			} else {
+				Installed = PKGsItem
+			}
+		}
 	}
-	if pkgInfo.Installed {
-		gui.Echo(false, "The following package(s) are already installed and wil be not reinstalled")
-		output := App.FindAllMatch(pkg, `((\w|\d|\-|\_|\+)+)`, 1)
+
+	if len(Installed) > 0 {
+		gui.Echo(false, "The following package(s) are already installed and wil be not installed")
+		output := App.FindAllMatch(Installed, `((\w|\d|\-|\_|\+)+)`, 1)
 		gui.ShowList(output, "dashList")
 		os.Exit(0)
 	}
-	if gui.InstallQuestion(PKG, pkgInfo.InstallSize, true) {
-		run.Interactive(App, "eopkg --no-color --yes-all install "+pkg, installOutputHandeler)
+
+	out, err := run.Run("eopkg --dry-run --no-color install " + PKG)
+	needRootErr(out, err)
+	installSize := App.FindMatch(out, `Total size of package\(s\):\s*((\d|\w|\.)+(\s(\w|\d)+)?)`, 1)
+
+	if gui.InstallQuestion(PKG, installSize, true) {
+		run.Interactive(App, "eopkg --no-color --yes-all install "+PKG, installOutputHandeler)
 	}
+
 	return nil
 }
 
@@ -38,16 +57,19 @@ func installOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) st
 	needRootErr(line, nil)
 
 	// output the terminal output for the --debug flagg)
-	gui.Echof(true, "cmdOut: %q\n", line)
+	gui.Echo(true, "cmdOut:", line)
 
 	// Run functions from last line
 	toExecuteAtEndOfNextLineWrapper(line)
 
 	// pre definded regular expresion(s)
 	DownloadingOrInstalling := `(?i)((downloading)|(installing))\s+(\d+).+(\d+)`
-	DownloadingOrInstallLineMatch := `(((\w|-)+)-((\d|\.|\-|\w|\_)+)(\s\[((\w|\d)+)\])?\w*)$`
+	DownloadingOrInstallLineMatch := `(((\w|-)+)-((\d|\.|\-|\w|\_)+)((((\s\[((\w|\d)+)\])?\w*)|(\(\d.+))|(\s*\((\w|\d|\.)+(\s*\w*)?\)\s*\d*\%.+)))$`
+	Installed := `(Installed\s((\w|\s|\-|\_)+)\s*)$`
 
-	if App.NormalMatch(`(?i)Warning: The following package(\(s\)|s)? are already installed and are not going to be installed again`, line) {
+	if App.NormalMatch(`Package (\w|\d|\-|\_|\.|\+)+ found in`, line) {
+		return ""
+	} else if App.NormalMatch(`(?i)Warning: The following package(\(s\)|s)? are already installed and are not going to be installed again`, line) {
 		// Check for packages that are already installed error
 		gui.Echo(false, "The following package(s) are already installed and wil be not reinstalled")
 		nextExecFuncMatchRegx = ``
@@ -70,8 +92,8 @@ func installOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) st
 			pkg := App.FindMatch(line, extraData["regx"].(string), 2)
 			gui.ProgressIn(extraData["index"].(string), extraData["of"].(string), extraData["type"].(string), pkg)
 		}
-	} else if App.NormalMatch(`(Installed\s((\w|\s|\-|\_)+)\s*)$`, line) {
-		gui.Installed(PKG)
+	} else if App.NormalMatch(Installed, line) {
+		gui.Installed(App.FindMatch(line, Installed, 1))
 	}
 
 	return ""

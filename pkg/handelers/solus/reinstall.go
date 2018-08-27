@@ -8,6 +8,6 @@ import (
 
 // Reinstall reinstalles a program
 func Reinstall(pkg string, flags *types.Flags) error {
-	fmt.Println("reinstall is not made yet...")
+	fmt.Println("reinstall is not working yet...")
 	return nil
 }
