@@ -5,6 +5,7 @@ import "github.com/mjarkk/multipkg/pkg/types"
 // this file contains all variables
 
 var commandOutput = []string{}
+
 var toExecuteAtEndOfNextLine = func(line string, extraData types.Flags) {}
 
 var lastExecLineData = types.Flags{}
@@ -20,5 +21,5 @@ func toExecuteAtEndOfNextLineWrapper(line string) {
 	}
 }
 
-// PKG is the package(s) that will be insatlled
+// PKG is the package(s) that will be handeld by install, remove, update, etc...
 var PKG string

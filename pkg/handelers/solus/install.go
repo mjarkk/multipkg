@@ -12,13 +12,16 @@ import (
 // Install installes a program
 func Install(pkg string, flags *types.Flags) error {
 	PKG = App.Replace(pkg, "", `^\s+|\s+$`)
+	if len(PKG) == 0 {
+		gui.FriendlyErr("No package(s) specified to remove")
+	}
 	pkgInfo, err := GetInfo(pkg, flags)
 	if err != nil {
 		gui.FriendlyErr(err)
 	}
 	if pkgInfo.Installed {
 		gui.Echo(false, "The following package(s) are already installed and wil be not reinstalled")
-		output := App.FindAllMatch(pkg, `((\w|\d|-)+)`, 1)
+		output := App.FindAllMatch(pkg, `((\w|\d|\-|\_|\+)+)`, 1)
 		gui.ShowList(output, "dashList")
 		os.Exit(0)
 	}
@@ -49,7 +52,7 @@ func installOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) st
 		gui.Echo(false, "The following package(s) are already installed and wil be not reinstalled")
 		nextExecFuncMatchRegx = ``
 		toExecuteAtEndOfNextLine = func(line string, extraData types.Flags) {
-			output := App.FindAllMatch(line, `((\w|\d|-)+)`, 1)
+			output := App.FindAllMatch(line, `((\w|\d|\-|\_|\+)+)`, 1)
 			gui.ShowList(output, "dashList")
 		}
 	} else if App.NormalMatch(DownloadingOrInstalling, line) {

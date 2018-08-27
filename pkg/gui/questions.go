@@ -78,3 +78,11 @@ func UpdateQuestion(Size string, ifAutoYes bool) bool {
 	}
 	return YesNo("Do you want to update these pacakges size: "+Size, ifAutoYes)
 }
+
+// RemoveQuestion asks if it's oke to remove a pacakge
+func RemoveQuestion(Name string, ifAutoYes bool) bool {
+	if autoYes {
+		return ifAutoYes
+	}
+	return YesNo("Do you want to remove: "+Name, ifAutoYes)
+}

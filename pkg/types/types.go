@@ -48,11 +48,11 @@ type PkgSearchList struct {
 
 // App can be used in other packages to execute functions from package app
 type App struct {
-	NormalMatch    func(regx string, arg string) bool
-	Match          func(regx string, arg string) bool
-	FindMatch      func(input string, regx string, selector int) string
-	Replace        func(toReplace string, Replaceval string, regx string) string
-	CleanupCli     func(input string) string
-	CleanFindMatch func(input string, regx string, selector int) string
-	FindAllMatch   func(input string, regx string, selector int) []string
+	NormalMatch    func(regx string, arg string) bool                            // regex string, argument string
+	Match          func(regx string, arg string) bool                            // regex string, argument string
+	FindMatch      func(input string, regx string, selector int) string          // input string, regex string, selector int
+	Replace        func(toReplace string, Replaceval string, regx string) string // toReplace string, Replaceval string, regex string
+	CleanupCli     func(input string) string                                     // input string
+	CleanFindMatch func(input string, regx string, selector int) string          // input string, regex string, selector string
+	FindAllMatch   func(input string, regx string, selector int) []string        // input string, regex string, selector string
 }

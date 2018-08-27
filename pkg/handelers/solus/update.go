@@ -13,8 +13,10 @@ import (
 // Update a program
 func Update(pkg string, flags *types.Flags) error {
 	command := "eopkg --no-color --dry-run upgrade"
+	finalCommand := "eopkg --no-color --yes-all upgrade"
 	if !App.NormalMatch(`^(\s*)$`, pkg) {
 		command = command + " " + pkg
+		finalCommand = command + " " + pkg
 	}
 	out, err := run.Run(command)
 	needRootErr(out, err)
@@ -31,17 +33,15 @@ func Update(pkg string, flags *types.Flags) error {
 	gui.ShowList(toUpdateArr, "normal")
 
 	if gui.UpdateQuestion(App.FindMatch(out, testRegx, 7), true) {
-		run.Interactive(App, "eopkg --no-color --yes-all upgrade", updateOutputHandeler)
+		run.Interactive(App, finalCommand, updateOutputHandeler)
 	}
 
 	return nil
 }
 
-var updateCommandOutput = []string{}
-
 // updateOutputHandeler handels the default line output of run.Interactive
 func updateOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) string {
-	updateCommandOutput = append(updateCommandOutput, line)
+	commandOutput = append(commandOutput, line)
 	needRootErr(line, nil)
 	gui.Echo(true, "cmdOut:", line)
 
