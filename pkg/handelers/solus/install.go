@@ -56,7 +56,7 @@ func installOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) st
 	commandOutput = append(commandOutput, line)
 	needRootErr(line, nil)
 
-	// output the terminal output for the --debug flagg)
+	// output the terminal output for the --debug flagg
 	gui.Echo(true, "cmdOut:", line)
 
 	// Run functions from last line
@@ -93,7 +93,7 @@ func installOutputHandeler(line string, tty *os.File, scanner *bufio.Scanner) st
 			gui.ProgressIn(extraData["index"].(string), extraData["of"].(string), extraData["type"].(string), pkg)
 		}
 	} else if App.NormalMatch(Installed, line) {
-		gui.Installed(App.FindMatch(line, Installed, 1))
+		gui.Installed(App.FindMatch(line, Installed, 2))
 	}
 
 	return ""

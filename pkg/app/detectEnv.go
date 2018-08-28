@@ -2,19 +2,21 @@ package app
 
 import (
 	"errors"
-	"io/ioutil"
+
+	"github.com/mjarkk/multipkg/pkg/run"
 )
 
 // this package detects the current OS
+
+// detectOs detects the current os from a command
 func detectOs() (string, error) {
-	defaultErr := "can't detect OS.."
-	out, err := ioutil.ReadFile("/etc/lsb-release")
-	if err != nil {
-		return "", errors.New(defaultErr)
+	_, err := run.Run("pacman --version")
+	if err == nil {
+		return "Arch", nil
 	}
-	match := FindMatch(string(out), "(DISTRIB_ID=)([a-zA-Z]+)", 2)
-	if len(match) == 0 {
-		return "", errors.New(defaultErr)
+	_, err = run.Run("eopkg --version")
+	if err == nil {
+		return "Solus", nil
 	}
-	return match, nil
+	return "", errors.New("Can't detect OS")
 }
