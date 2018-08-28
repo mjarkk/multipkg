@@ -28,7 +28,10 @@ func Run(command string) (output string, err error) {
 	}
 
 	cmd := exec.Command(commands[0], commands[1:]...)
-	cmd.Env = procs.Env(map[string]string{"LANG": "en_US.utf8"}, true)
+	cmd.Env = procs.Env(map[string]string{
+		"LANG":   "en_US.utf8",
+		"LC_ALL": "en_US.UTF-8",
+	}, true)
 
 	bytes, err := cmd.CombinedOutput()
 	return string(bytes), err
@@ -42,7 +45,10 @@ func write(term *os.File, toType string) {
 func Interactive(App *types.App, command string, OutputHandler func(line string, tty *os.File, scanner *bufio.Scanner) string) (err error) {
 
 	cmd := exec.Command("bash")
-	cmd.Env = procs.Env(map[string]string{"LANG": "en_US.utf8"}, true)
+	cmd.Env = procs.Env(map[string]string{
+		"LANG":   "en_US.utf8",
+		"LC_ALL": "en_US.UTF-8",
+	}, true)
 
 	tty, err := pty.Start(cmd)
 	pty.Setsize(tty, &pty.Winsize{

@@ -19,3 +19,10 @@ func FriendlyErr(errors ...interface{}) {
 	Echo(false, "exiting..")
 	os.Exit(0)
 }
+
+// NoPkgsInstall give an error message that there are no packages to insatll
+func NoPkgsInstall(pkg string) {
+	if len(pkg) == 0 {
+		FriendlyErr("No package(s) specified to install")
+	}
+}

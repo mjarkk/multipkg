@@ -12,9 +12,7 @@ import (
 // Install installes a program
 func Install(pkg string, flags *types.Flags) error {
 	PKG = App.Replace(pkg, "", `^\s+|\s+$`)
-	if len(PKG) == 0 {
-		gui.FriendlyErr("No package(s) specified to install")
-	}
+	gui.NoPkgsInstall(PKG)
 
 	PKGs := App.FindAllMatch(PKG, `((\w|\d|\-|\_|\+)+)`, 1)
 	Installed := ""

@@ -22,12 +22,6 @@ func Setup(app *types.App) *types.Handeler {
 	}
 }
 
-// Install handels the install command
-func Install(pkg string, flags *types.Flags) error {
-	fmt.Println("install is not working yet...")
-	return nil
-}
-
 // Reinstall handels the reinstall command
 func Reinstall(pkg string, flags *types.Flags) error {
 	fmt.Println("reinstall is not working yet...")
