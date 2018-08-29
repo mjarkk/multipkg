@@ -23,20 +23,33 @@ func ReturnLongest(inputs []string) int {
 // PrintPkgInfo prints out a programs info info
 func PrintPkgInfo(packageInf *types.PkgInfo) {
 	leng := ReturnLongest([]string{"Installled Version", "Installled Release"})
-	fmt.Println(RightPad("Name", " ", leng), "-", packageInf.Name)
-	fmt.Println(RightPad("Installed", " ", leng), "-", packageInf.Installed)
-	if packageInf.Installed {
-		fmt.Println(RightPad("Installled Version", " ", leng), "-", packageInf.InstallledVersion)
-		fmt.Println(RightPad("Installled Release", " ", leng), "-", packageInf.InstallledRelease)
+	emptryVars := []string{}
+	printLn := func(key string, value interface{}) {
+		if value == "" {
+			emptryVars = append(emptryVars, key)
+		} else {
+			fmt.Println(RightPad(key, " ", leng), "-", value)
+		}
 	}
-	fmt.Println(RightPad("Version", " ", leng), "-", packageInf.Version)
-	fmt.Println(RightPad("Release", " ", leng), "-", packageInf.Release)
-	fmt.Println(RightPad("Dependencies", " ", leng), "-", packageInf.Dependencies)
-	fmt.Println(RightPad("Description", " ", leng), "-", packageInf.Description)
-	fmt.Println(RightPad("Licenses", " ", leng), "-", packageInf.Licenses)
-	fmt.Println(RightPad("Component", " ", leng), "-", packageInf.Component)
-	fmt.Println(RightPad("Architecture", " ", leng), "-", packageInf.Architecture)
-	fmt.Println(RightPad("Size", " ", leng), "-", packageInf.InstallSize)
+	printLn("Name", packageInf.Name)
+
+	printLn("Installed", packageInf.Installed)
+	if packageInf.Installed {
+		printLn("Installled Version", packageInf.InstallledVersion)
+		printLn("Installled Release", packageInf.InstallledRelease)
+	}
+	printLn("Version", packageInf.Version)
+	printLn("Release", packageInf.Release)
+	printLn("Dependencies", packageInf.Dependencies)
+	printLn("Description", packageInf.Description)
+	printLn("Licenses", packageInf.Licenses)
+	printLn("Component", packageInf.Component)
+	printLn("Architecture", packageInf.Architecture)
+	printLn("Size", packageInf.InstallSize)
+	if len(emptryVars) > 0 {
+		Echo(false, "\nthe folowing item where not found:")
+		ShowList(emptryVars, "normal")
+	}
 }
 
 // PrintPkgSearch prints out a list of found packages from a repo
