@@ -1,4 +1,4 @@
-package solus
+package arch
 
 import (
 	"github.com/mjarkk/multipkg/pkg/gui"

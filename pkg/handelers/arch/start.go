@@ -39,9 +39,3 @@ func Search(pkg string, flags *types.Flags) error {
 	fmt.Println("search is not working yet...")
 	return nil
 }
-
-// Info handels the info command
-func Info(pkg string, flags *types.Flags) error {
-	fmt.Println("info is not working yet...")
-	return nil
-}

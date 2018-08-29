@@ -25,8 +25,10 @@ func PrintPkgInfo(packageInf *types.PkgInfo) {
 	leng := ReturnLongest([]string{"Installled Version", "Installled Release"})
 	fmt.Println(RightPad("Name", " ", leng), "-", packageInf.Name)
 	fmt.Println(RightPad("Installed", " ", leng), "-", packageInf.Installed)
-	fmt.Println(RightPad("Installled Version", " ", leng), "-", packageInf.InstallledVersion)
-	fmt.Println(RightPad("Installled Release", " ", leng), "-", packageInf.InstallledRelease)
+	if packageInf.Installed {
+		fmt.Println(RightPad("Installled Version", " ", leng), "-", packageInf.InstallledVersion)
+		fmt.Println(RightPad("Installled Release", " ", leng), "-", packageInf.InstallledRelease)
+	}
 	fmt.Println(RightPad("Version", " ", leng), "-", packageInf.Version)
 	fmt.Println(RightPad("Release", " ", leng), "-", packageInf.Release)
 	fmt.Println(RightPad("Dependencies", " ", leng), "-", packageInf.Dependencies)
