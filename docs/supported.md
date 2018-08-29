@@ -20,7 +20,7 @@ Here is a extensive list of what is working
 (:heavy_plus_sign:) Working on
 - (:x:) install
 - (:x:) remove
-- (:x:) info
+- (:heavy_check_mark:) info
 - (:x:) update
 - (:x:) search
 - (:x:) reinstall
