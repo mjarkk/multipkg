@@ -15,7 +15,7 @@ func Remove(pkg string, flags *types.Flags) error {
 	if len(PKG) == 0 {
 		gui.FriendlyErr("No package(s) specified to remove")
 	}
-	pkgInfo, err := GetInfo(pkg, flags)
+	pkgInfo, err := GetInfo(pkg)
 	if err != nil {
 		gui.FriendlyErr(err)
 	}

@@ -11,31 +11,7 @@ import (
 
 // Install installes a program
 func Install(pkg string, flags *types.Flags) error {
-	PKG = App.Replace(pkg, "", `^\s+|\s+$`)
-	gui.NoPkgsInstall(PKG)
-
-	PKGs := App.FindAllMatch(PKG, `((\w|\d|\-|\_|\+)+)`, 1)
-	Installed := ""
-	for _, PKGsItem := range PKGs {
-		toAdd, err := GetInfo(PKGsItem, flags)
-		if err != nil {
-			gui.FriendlyErr(err)
-		}
-		if toAdd.Installed {
-			if len(Installed) > 0 {
-				Installed = Installed + " " + PKGsItem
-			} else {
-				Installed = PKGsItem
-			}
-		}
-	}
-
-	if len(Installed) > 0 {
-		gui.Echo(false, "The following package(s) are already installed and wil be not installed")
-		output := App.FindAllMatch(Installed, `((\w|\d|\-|\_|\+)+)`, 1)
-		gui.ShowList(output, "dashList")
-		os.Exit(0)
-	}
+	PKG = gui.CheckBeForeInstall(pkg, GetInfo)
 
 	out, err := run.Run("eopkg --dry-run --no-color install " + PKG)
 	needRootErr(out, err)

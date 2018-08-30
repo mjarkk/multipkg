@@ -29,8 +29,7 @@ func Install(pkg string, flags *types.Flags) error {
 	// TODO: remove later
 	fmt.Println("install is not working yet...")
 
-	PKG = App.Replace(pkg, "", `^\s+|\s+$`)
-	gui.NoPkgsInstall(PKG)
+	PKG = gui.CheckBeForeInstall(pkg, getInfo)
 
 	run.Interactive(App, "pacman -Syuu "+PKG, func(line string, tty *os.File, scanner *bufio.Scanner) string {
 		return installUpdateProcess(line)

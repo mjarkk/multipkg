@@ -11,7 +11,7 @@ import (
 
 // Info about a program
 func Info(pkg string, flags *types.Flags) error {
-	data, err := GetInfo(pkg, flags)
+	data, err := GetInfo(pkg)
 	if err != nil {
 		gui.FriendlyErr()
 	}
@@ -20,7 +20,7 @@ func Info(pkg string, flags *types.Flags) error {
 }
 
 // GetInfo gets info about the package and wraps it inside a object
-func GetInfo(pkg string, flags *types.Flags) (*types.PkgInfo, error) {
+func GetInfo(pkg string) (*types.PkgInfo, error) {
 	out, err := run.Run("eopkg info --no-color " + pkg)
 	needRootErr(out, err)
 	returnVal := &types.PkgInfo{
