@@ -42,6 +42,7 @@ func write(term *os.File, toType string) {
 }
 
 // Interactive runs a command with a function bind input and output
+// BUG: Currently only send the next line if a answer is returned on the last line
 func Interactive(App *types.App, command string, OutputHandler func(line string, tty *os.File, scanner *bufio.Scanner) string) (err error) {
 
 	cmd := exec.Command("bash")
