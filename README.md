@@ -1,3 +1,8 @@
+## Discontinued
+Becase of a fundamental code bug and a view other things that bothered me i'll stop the devlopment for this project.  
+Maybe i'll work on this project later again.  
+Here is a great alternative: https://github.com/emilengler/sysget
+
 # multipkg
 A tool that removes the differences between package installers from linux distro's
 
