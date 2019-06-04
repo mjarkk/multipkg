@@ -47,7 +47,7 @@ func PrintPkgInfo(packageInf *types.PkgInfo) {
 	printLn("Architecture", packageInf.Architecture)
 	printLn("Size", packageInf.InstallSize)
 	if len(emptryVars) > 0 {
-		Echo(false, "\nthe folowing item where not found:")
+		Echo(false, "\nThe tool was not able to find the following items:")
 		ShowList(emptryVars, "normal")
 	}
 }

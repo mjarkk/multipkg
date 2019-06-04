@@ -35,14 +35,13 @@ func DetectRunAction(handeler *types.Handeler) {
 }
 
 func actionToRun() types.Obj {
-	out := make(types.Obj)
+	out := types.Obj{}
 	out["command"] = ""
 	out["force"] = ""
 	out["commandArg"] = ""
 
 	for _, arg := range os.Args[1:] {
 		runCommand := out["command"] == ""
-
 		if Match("install|in|i", arg) && runCommand {
 			out["command"] = "Install"
 		} else if Match("reinstall|rein|ri", arg) && runCommand {
@@ -62,7 +61,6 @@ func actionToRun() types.Obj {
 		} else if runCommand {
 			gui.FriendlyErr("multipkg: command " + arg + " not found")
 		}
-
 	}
 
 	if out["command"] == "" {

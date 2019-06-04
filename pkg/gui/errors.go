@@ -2,7 +2,6 @@ package gui
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -12,14 +11,14 @@ import (
 // CheckErr checks if there is an error if so it logs it error
 func CheckErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("CRITICAL ERROR:", err)
+		os.Exit(1)
 	}
 }
 
 // FriendlyErr returns a error message without making a user super scared
 func FriendlyErr(errors ...interface{}) {
 	fmt.Println(errors...)
-	Echo(false, "exiting..")
 	os.Exit(0)
 }
 

@@ -5,27 +5,29 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mjarkk/multipkg/pkg/functions"
 	"github.com/mjarkk/multipkg/pkg/types"
+	"github.com/mjarkk/multipkg/pkg/utils"
 )
 
-// debugMode tells the program to print more info if needed
-var debugMode = false
-var autoYes = false
+// DebugMode tells the program to print more info if needed
+var DebugMode = false
+
+// AutoYes automatilcy answers yes to all questions
+var AutoYes = false
 
 // App variable contains functions from other packages
 var App *types.App
 
 // Echo prints something to the screen
 func Echo(debug bool, inputs ...interface{}) {
-	if !debug || debugMode {
+	if !debug || DebugMode {
 		fmt.Println(inputs...)
 	}
 }
 
 // Echof ueses Printf instaid of Println
 func Echof(debug bool, input string, arguments ...interface{}) {
-	if !debug || debugMode {
+	if !debug || DebugMode {
 		fmt.Printf(input, arguments...)
 	}
 }
@@ -33,8 +35,8 @@ func Echof(debug bool, input string, arguments ...interface{}) {
 // Setup the gui package
 func Setup(app *types.App) {
 	App = app
-	debugMode = funs.InArr(os.Args[1:], "--debug")
-	autoYes = funs.InArr(os.Args[1:], "--yes") || funs.InArrRegx(app, os.Args[1:], `^(\s*\-(\d|\w)*y(\d|\w)*\s*)$`)
+	DebugMode = utils.InArr(os.Args[1:], "--debug")
+	AutoYes = utils.InArr(os.Args[1:], "--yes") || utils.InArrRegx(app, os.Args[1:], `^(\s*\-(\d|\w)*y(\d|\w)*\s*)$`)
 }
 
 // ShowList shows a list of inputed strings
@@ -45,7 +47,6 @@ func ShowList(input []string, listType string) {
 			fmt.Println(" -", item)
 		}
 	} else {
-		// normal
 		fmt.Println(strings.Join(input, ", "))
 	}
 }

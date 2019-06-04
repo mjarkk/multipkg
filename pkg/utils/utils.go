@@ -1,4 +1,4 @@
-package funs
+package utils
 
 import "github.com/mjarkk/multipkg/pkg/types"
 
