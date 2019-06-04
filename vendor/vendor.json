@@ -1,0 +1,25 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "VdXZPcDRHK1T7XjBu2KW8Mb8S6w=",
+			"path": "github.com/flynn/go-shlex",
+			"revision": "3f9db97f856818214da2e1057f8ad84803971cff",
+			"revisionTime": "2015-05-15T14:53:56Z"
+		},
+		{
+			"checksumSHA1": "LhFrcP4fngNQH7KHGhCEv5dM7mM=",
+			"path": "github.com/ionrock/procs",
+			"revision": "f53ef5630f1a1fd42c4e528a04cdaa81265cc66d",
+			"revisionTime": "2018-01-02T00:55:58Z"
+		},
+		{
+			"checksumSHA1": "WD7GMln/NoduJr0DbumjOE59xI8=",
+			"path": "github.com/kr/pty",
+			"revision": "b6e1bdd4a4f88614e0c6e5e8089c7abed98aae17",
+			"revisionTime": "2019-04-01T03:15:51Z"
+		}
+	],
+	"rootPath": "github.com/mjarkk/multipkg"
+}

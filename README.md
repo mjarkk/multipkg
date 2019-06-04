@@ -8,13 +8,12 @@ A tool that removes the differences between package installers from linux distro
 
 ## Status
 I just started working on this app and it's a quite big idea so it might take some time before it suports the major linux distrobutions and maybe windows some day  
-:heavy_plus_sign: = Working on, :heavy_check_mark: = Mostly dune, :x: No development yet
-- (:heavy_plus_sign:) The base app
-- (:heavy_check_mark:) Solus
-- (:x:) Fedora
-- (:heavy_plus_sign:) Arch linux
-- (:x:) Ubuntu 
-- (:x:) Windows *chocolatey*
+:heavy_plus_sign: = Working on, :heavy_check_mark: = Mostly dune, :x: No development yet  
+
+| x | Base app | Eopkg | DNF | APT | Pacman | Chocolatey |
+|---|---|---|---|---|---|---|
+| Status: | :heavy_plus_sign: | :heavy_check_mark: | :x: | :x: | :heavy_plus_sign: | :x: |
+
 For a more extensive status read: [docs/supported.md](./docs/supported.md)
 
 ## Setup:

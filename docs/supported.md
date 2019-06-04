@@ -1,32 +1,10 @@
 # Supported distros and OSs
 Here is a extensive list of what is working 
 
-## The base app
-(:heavy_plus_sign:) Working on
-
-## Solus
-(:heavy_check_mark:) Mostly dune
-- (:heavy_check_mark:) install
-- (:heavy_check_mark:) remove
-- (:heavy_check_mark:) info
-- (:heavy_check_mark:) update
-- (:heavy_check_mark:) search
-- (:x:) reinstall
-
-## Fedora
-(:x:) No development yet
-
-## Arch linux
-(:heavy_plus_sign:) Working on
-- (:x:) install
-- (:x:) remove
-- (:heavy_check_mark:) info
-- (:x:) update
-- (:x:) search
-- (:x:) reinstall
-
-## Ubuntu 
-(:x:) No development yet
-
-## Windows *chocolatey*
-(:x:) No development yet
+| OS | Install | Remove | Info | Update | Search | Reinstall |
+|---|---|---|---|---|---|---|
+| Eopkg | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
+| DNF | :x: | :x: | :x: | :x: | :x: | :x: |
+| APT | :x: | :x: | :x: | :x: | :x: | :x: |
+| Pacman | :x: | :x: | :heavy_check_mark: | :x: | :x: | :x: |
+| Chocolatey | :x: | :x: | :x: | :x: | :x: | :x: |
